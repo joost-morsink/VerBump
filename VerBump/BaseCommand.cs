@@ -20,7 +20,7 @@ namespace VerBump
         protected Repository Repo => _repo.Value;
         protected async Task LoadConfig()
         {
-            var configPath = Path.Combine(Repository, ".versioning");
+            var configPath = Path.Combine(Repository, ".verbump");
             if (!File.Exists(configPath))
             {
                 Config = new Config
@@ -35,8 +35,8 @@ namespace VerBump
         }
         protected async Task SaveConfig()
         {
-            var configPath = Path.Combine(Repository, ".versioning");
-            using var str = File.OpenWrite(configPath);
+            var configPath = Path.Combine(Repository, ".verbump");
+            using var str = File.Create(configPath);
             await JsonSerializer.SerializeAsync(str, Config);
         }
         public async Task Run()

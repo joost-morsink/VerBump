@@ -22,6 +22,8 @@ namespace VerBump
         {
             var oldFiles = old.GetFiles().Where(n => !n.EndsWith(".csproj")).OrderBy(n => n).ToArray();
             var newFiles = @new.GetFiles().Where(n => !n.EndsWith(".csproj")).OrderBy(n => n).ToArray();
+            var oldHashes = oldFiles.Select(old.Hash).ToArray();
+            var newHashes = newFiles.Select(@new.Hash).ToArray();
             if (oldFiles.Length != newFiles.Length)
                 return true;
             if (!oldFiles.Zip(newFiles, (o, n) => o == n && old.Hash(o) == @new.Hash(n)).All(x => x))

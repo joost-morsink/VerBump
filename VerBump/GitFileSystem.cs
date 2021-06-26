@@ -33,10 +33,13 @@ namespace VerBump
         public string GetContentString(string path)
             => ((Blob)_tree[path].Target).GetContentText();
 
-        public IEnumerable<(string name, IFileSystem system)> GetDirectories()
+        public IEnumerable<(string name, GitFileSystem system)> GetDirectories()
             => _tree == null
-                ? Enumerable.Empty<(string, IFileSystem)>()
-                : _tree.Where(e => e.TargetType == TreeEntryTargetType.Tree).Select(t => (t.Name, (IFileSystem)new GitFileSystem(_repo, _commit, t.Target.Peel<Tree>())));
+                ? Enumerable.Empty<(string, GitFileSystem)>()
+                : _tree.Where(e => e.TargetType == TreeEntryTargetType.Tree).Select(t => (t.Name, new GitFileSystem(_repo, _commit, t.Target.Peel<Tree>())));
+
+        IEnumerable<(string name, IFileSystem system)> IFileSystem.GetDirectories()
+            => GetDirectories().Select(d => (d.name, (IFileSystem)d.system));
 
         public IEnumerable<string> GetFiles()
             => _tree == null
@@ -46,7 +49,10 @@ namespace VerBump
         public string Hash(string path)
             => _tree == null ? "" : _tree[path].Target.Sha;
 
-        public IFileSystem Navigate(string path)
+        public GitFileSystem Navigate(string path)
             => _tree == null ? this : new GitFileSystem(_repo, _commit, _tree[path].Target.Peel<Tree>());
+
+        IFileSystem IFileSystem.Navigate(string path)
+            => Navigate(path);
     }
 }

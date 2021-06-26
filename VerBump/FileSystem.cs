@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
+using System;
 
 namespace VerBump
 {
@@ -30,9 +32,20 @@ namespace VerBump
             => Directory.EnumerateFiles(_basePath).Select(Path.GetFileName);
 
         public string Hash(string path)
-            => string.Concat(SHA1.Create().ComputeHash(GetContentBytes(path)).Select(b => b.ToString("x2")));
+        {
+            var content = GetContentBytes(path);
+            var header = Encoding.UTF8.GetBytes($"blob #{content.Length}\u0000");
+            
+            return string.Concat(
+                SHA1.Create()
+                    .ComputeHash(new[] { header, content }.SelectMany(b => b)
+                                                          .ToArray())
+                    .Select(b => b.ToString("x2")));
+        }
+        IWriteableFileSystem IWriteableFileSystem.Navigate(string path)
+            => Navigate(path);
 
-        public IWriteableFileSystem Navigate(string path)
+        public FileSystem Navigate(string path)
         {
             var absPath = Path.Combine(_basePath, path);
             return Directory.Exists(absPath) ? new FileSystem(absPath) : null;

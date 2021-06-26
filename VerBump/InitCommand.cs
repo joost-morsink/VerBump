@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace VerBump
 {
-    [Verb("init")]
+    [Verb("init", HelpText = "Initializes the git repo for verbump.")]
     public class InitCommand : BaseCommand
     {
         private static readonly string[] SUPPORTED = new[] { "cs" };

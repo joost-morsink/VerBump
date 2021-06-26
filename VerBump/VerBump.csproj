@@ -3,7 +3,20 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
+    <Title>VerBump</Title>
     <VersionPrefix>0.1.0</VersionPrefix>
+    <Authors>Joost W. Morsink</Authors>
+    <Company>Morsink Software</Company>
+    <PackageId>VerBump</PackageId>
+    <Description>Semver version bumping utility</Description>
+    <PackageProjectUrl>https://github.com/joost-morsink/VerBump</PackageProjectUrl>
+    <RootNamespace>VerBump</RootNamespace>
+    <Copyright>(C) 2021 Joost W. Morsink</Copyright>
+    <PackageTags>semver bump</PackageTags>
+    <PackageLicense>MIT</PackageLicense>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/joost-morsink/VerBump.git</RepositoryUrl>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>verbump</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
