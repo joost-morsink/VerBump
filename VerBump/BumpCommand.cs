@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VerBump
 {
-    [Verb("bump",HelpText = "Bumps all projects to next version, if they have changes compared to the base.")]
+    [Verb("bump", HelpText = "Bumps all projects to next version, if they have changes compared to the base.")]
     public class BumpCommand : BaseCommand
     {
         [Option('t', "type", Default = Change.Minor, HelpText = "Type of bump: Patch, Minor, Major.")]
@@ -18,7 +18,7 @@ namespace VerBump
             {
                 var fc = Console.ForegroundColor;
                 Console.WriteLine($"Finder {name}:");
-                var baseCommitSha = Repo.Tags[Config.Base]?.PeeledTarget.Peel<Commit>().Sha ?? Config.Base;
+                var baseCommitSha = Config.Base == null ? null : Repo.Tags[Config.Base]?.PeeledTarget.Peel<Commit>().Sha ?? Config.Base;
                 var baseCommit = Config.Base == null ? null : Repo.Lookup<Commit>(baseCommitSha);
                 var baseFs = new GitFileSystem(Repo, baseCommit);
                 var baseVers = finder.GetVersions(baseFs);
