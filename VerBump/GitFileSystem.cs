@@ -50,7 +50,7 @@ namespace VerBump
             => _tree == null ? "" : _tree[path].Target.Sha;
 
         public GitFileSystem Navigate(string path)
-            => _tree == null ? this : new GitFileSystem(_repo, _commit, _tree[path].Target.Peel<Tree>());
+            => _tree == null ? this : new GitFileSystem(_repo, _commit, _tree[path.Replace('\\','/')]?.Target.Peel<Tree>());
 
         IFileSystem IFileSystem.Navigate(string path)
             => Navigate(path);
