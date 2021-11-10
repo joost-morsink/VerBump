@@ -36,12 +36,12 @@ namespace VerBump
             => Path.Combine(path1, path2);
 
         public byte[] GetContentBytes(string path)
-            => _status[Combine(_path, path)].State == FileStatus.Unaltered
+            => _status[Combine(_path, path).ToGitPath()].State == FileStatus.Unaltered
                 ? _git.GetContentBytes(path)
                 : _worktree.GetContentBytes(path);
 
         public string GetContentString(string path)
-            => _status[Combine(_path, path)].State == FileStatus.Unaltered
+            => _status[Combine(_path, path).ToGitPath()].State == FileStatus.Unaltered
                 ? _git.GetContentString(path)
                 : _worktree.GetContentString(path);
 
@@ -52,12 +52,12 @@ namespace VerBump
             => GetDirectories().Select(d => (d.name, (IFileSystem)d.system));
 
         public IEnumerable<string> GetFiles()
-            => _git.GetFiles().Where(fn => !_status.Removed.Any(se => se.FilePath == Combine(Combine(_basePath, _path), fn)))
+            => _git.GetFiles().Where(fn => !_status.Removed.Any(se => se.FilePath == Combine(Combine(_basePath, _path), fn).ToGitPath()))
                 .Concat(_status.Added.Where(se => Path.GetDirectoryName(se.FilePath) == _path).Select(se => Path.GetFileName(se.FilePath)));
 
         public string Hash(string path)
-            => _status[Combine(_path, path)].State == FileStatus.Nonexistent
-                    || _status[Combine(_path, path)].State == FileStatus.Unaltered
+            => _status[Combine(_path, path).ToGitPath()].State == FileStatus.Nonexistent
+                    || _status[Combine(_path, path).ToGitPath()].State == FileStatus.Unaltered
                 ? _git.Hash(path)
                 : _worktree.Hash(path);
 

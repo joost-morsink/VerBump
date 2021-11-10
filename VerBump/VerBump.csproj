@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <Title>VerBump</Title>
-    <VersionPrefix>0.1.2</VersionPrefix>
+    <VersionPrefix>0.1.3</VersionPrefix>
     <Authors>Joost W. Morsink</Authors>
     <Company>Morsink Software</Company>
     <PackageId>VerBump</PackageId>

@@ -36,5 +36,7 @@ namespace VerBump
                 Change.Patch => new SemVersion(ver.Major, ver.Minor, ver.Patch + 1),
                 _ => ver
             };
+        public static string ToGitPath(this string path)
+            => path.Replace('\\', '/');
     }
 }
