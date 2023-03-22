@@ -15,7 +15,7 @@ namespace VerBump
             => _versionFinders.TryGetValue(name, out var res) ? res : null;
         public static Change? Compare(this SemVersion fromVer, SemVersion toVer)
         {
-            if (fromVer > toVer)
+            if (fromVer.CompareSortOrderTo(toVer) > 0)
                 return null;
             if (fromVer.Major == toVer.Major)
                 if (fromVer.Minor == toVer.Minor)

@@ -51,7 +51,7 @@ namespace VerBump
                from csproj in x.system.GetFiles().Where(n => n.EndsWith(".csproj")).Take(1)
                let e = XElement.Parse(x.system.GetContentString(csproj))
                from v in e.Descendants("VersionPrefix")
-               select (x.path, SemVersion.TryParse(v.Value, out var res) ? res : null) into ver
+               select (x.path, SemVersion.TryParse(v.Value, SemVersionStyles.Strict, out var res) ? res : null) into ver
                where ver.Item2 != null
                select ver.ToKeyValuePair();
 
